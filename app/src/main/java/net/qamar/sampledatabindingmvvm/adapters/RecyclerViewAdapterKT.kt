@@ -4,11 +4,13 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import net.qamar.sampledatabindingmvvm.R
+import net.qamar.sampledatabindingmvvm.databinding.TaskItemBinding
 import net.qamar.sampledatabindingmvvm.model.RetroPhoto
-import  java.util.ArrayList
+import java.util.*
+
 
 class RecyclerViewAdapterKT(albums: ArrayList<RetroPhoto>?, context: Context) :
     RecyclerView.Adapter<RecyclerViewAdapterKT.ViewHolder>() {
@@ -20,38 +22,38 @@ class RecyclerViewAdapterKT(albums: ArrayList<RetroPhoto>?, context: Context) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerViewAdapterKT.ViewHolder {
 
-        val v: View = LayoutInflater.from(parent.context).inflate(R.layout.task_item, parent, false)
-        val vh = ViewHolder(v)
-        return vh;
+
+      val binding: TaskItemBinding = DataBindingUtil.inflate( LayoutInflater.from(parent.context),
+          R.layout.task_item, parent, false);
+        return ViewHolder(binding)
     }
 
     override fun getItemCount(): Int {
-
         return albums?.size!!
     }
 
     override fun onBindViewHolder(holder: RecyclerViewAdapterKT.ViewHolder, position: Int) {
 
-        holder.txtID?.setText("${albums?.get(position)?.id}")
-        holder.txtTitle?.setText(albums?.get(position)?.title)
-        holder.txtDescription?.setText(albums?.get(position)?.url)
+        val item = albums!![position]
+        holder.bindItem(item)
+
     }
 
 
-    class ViewHolder(view: View) : RecyclerView.ViewHolder(view), View.OnClickListener {
+    class ViewHolder( binding: TaskItemBinding) : RecyclerView.ViewHolder(binding.root), View.OnClickListener {
 
-        var txtID: TextView? = null
-        var txtTitle: TextView? = null
-        var txtDescription: TextView? = null
-
+        var binding: TaskItemBinding? = null
 
         init {
-            txtID = view.findViewById(R.id.txtTaskID)
-            txtTitle = view.findViewById(R.id.txtTitle)
-            txtDescription = view.findViewById(R.id.txtDescription)
+            this.binding = binding
         }
 
         override fun onClick(p0: View?) {
+        }
+
+        fun bindItem(item: RetroPhoto?) {
+            binding!!.item = item
+            binding!!.executePendingBindings()
         }
 
 
