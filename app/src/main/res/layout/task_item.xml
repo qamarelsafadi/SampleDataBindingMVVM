@@ -41,6 +41,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
+                    app:textChangeColor="@{item.id}"
                     android:text="Task No."
                     android:textColor="#000"
                     android:textSize="18sp"

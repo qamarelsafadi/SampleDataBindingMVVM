@@ -1,7 +1,9 @@
 package net.qamar.sampledatabindingmvvm.repository
 
 import android.app.Application
+import android.graphics.Color
 import android.util.Log
+import android.widget.TextView
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import net.qamar.sampledatabindingmvvm.apiNetworking.RetrofitClientInstance
@@ -16,14 +18,23 @@ class SampleRepository() {
     val name = MutableLiveData<String>()
     val showProgress = MutableLiveData<Boolean>()
     val albumList = MutableLiveData<ArrayList<RetroPhoto>>()
+    val color = MutableLiveData<Int>()
 
 
     init {
         name.value = "Jacob"
         showProgress.value = true
+        color.value = Color.BLUE
+
     }
 
 
+    fun changeTextColor(view: TextView){
+
+        color.value = Color.BLUE
+
+        view.setTextColor(color.value!!)
+    }
     fun onClickTextView() {
         showProgress.value = false
         name.value = "Qamar"

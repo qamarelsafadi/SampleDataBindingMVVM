@@ -1,5 +1,7 @@
 package net.qamar.sampledatabindingmvvm.viewmodel
 
+import android.widget.TextView
+import androidx.databinding.BindingAdapter
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -17,7 +19,6 @@ class SampleViewModel() : ViewModel() {
         name = repository.name
         showProgress = repository.showProgress
         albumList = repository.getAllAlbums()
-
     }
 
     fun changeTextView() {
