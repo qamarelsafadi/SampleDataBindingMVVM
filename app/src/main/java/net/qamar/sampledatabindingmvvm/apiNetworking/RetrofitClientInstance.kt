@@ -2,7 +2,9 @@
 package net.qamar.sampledatabindingmvvm.apiNetworking
 
 import com.google.gson.GsonBuilder
+import okhttp3.Dispatcher
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
@@ -14,19 +16,19 @@ object RetrofitClientInstance {
     private var retrofit: Retrofit? = null
 
     val BASE_URL = "https://jsonplaceholder.typicode.com/"
+    val dispatcher = Dispatcher()
+    val loggingInterceptor = HttpLoggingInterceptor()
+    init {
+        dispatcher.maxRequests = 100
+        loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
 
+    }
     var client = OkHttpClient.Builder()
         .connectTimeout(0, TimeUnit.SECONDS)
-        .readTimeout(0, TimeUnit.SECONDS)
         .writeTimeout(0, TimeUnit.SECONDS)
-        .addInterceptor { chain ->
-            val newRequest = chain.request().newBuilder()
-                .addHeader("Content-Type", "application/json")
-                .addHeader("Accept", "application/json")
-                .build()
-            chain.proceed(newRequest)
-        }.build()
-
+        .readTimeout(0, TimeUnit.SECONDS)
+        .addInterceptor(loggingInterceptor)
+        .dispatcher(dispatcher).build()
 
 
 
@@ -38,7 +40,7 @@ object RetrofitClientInstance {
 
 
             if (retrofit == null) {
-                retrofit = retrofit2.Retrofit.Builder()
+                retrofit = Retrofit.Builder()
                     .baseUrl(BASE_URL)
                     .client(client)
                     .addConverterFactory(GsonConverterFactory.create(gson))

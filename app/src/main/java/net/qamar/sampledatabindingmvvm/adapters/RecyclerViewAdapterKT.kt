@@ -1,14 +1,17 @@
 package com.example.kotlinrv.Adapters
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat.startActivity
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import net.qamar.sampledatabindingmvvm.R
 import net.qamar.sampledatabindingmvvm.databinding.TaskItemBinding
 import net.qamar.sampledatabindingmvvm.model.RetroPhoto
+import net.qamar.sampledatabindingmvvm.view.DetailsActivity
 import java.util.*
 
 
@@ -35,26 +38,33 @@ class RecyclerViewAdapterKT(albums: ArrayList<RetroPhoto>?, context: Context) :
     override fun onBindViewHolder(holder: RecyclerViewAdapterKT.ViewHolder, position: Int) {
 
         val item = albums!![position]
+
         holder.bindItem(item)
 
     }
 
 
-    class ViewHolder( binding: TaskItemBinding) : RecyclerView.ViewHolder(binding.root), View.OnClickListener {
+    class ViewHolder( binding: TaskItemBinding) : RecyclerView.ViewHolder(binding.root){
 
         var binding: TaskItemBinding? = null
 
+
         init {
             this.binding = binding
+
+            this.binding!!.ConsContainer.setOnClickListener {
+                val intent = Intent(this.binding!!.root.context, DetailsActivity::class.java)
+                this.binding!!.root.context. startActivity(intent)
+            }
+
         }
 
-        override fun onClick(p0: View?) {
-        }
 
         fun bindItem(item: RetroPhoto?) {
             binding!!.item = item
             binding!!.executePendingBindings()
         }
+
 
 
     }

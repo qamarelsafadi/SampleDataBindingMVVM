@@ -2,6 +2,9 @@ package net.qamar.sampledatabindingmvvm.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
+import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil.setContentView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -9,15 +12,16 @@ import com.example.kotlinrv.Adapters.RecyclerViewAdapterKT
 import kotlinx.android.synthetic.main.activity_main.*
 import net.qamar.sampledatabindingmvvm.R
 import net.qamar.sampledatabindingmvvm.databinding.ActivityMainBinding
+import net.qamar.sampledatabindingmvvm.model.RetroPhoto
+import net.qamar.sampledatabindingmvvm.apiNetworking.Status.*
 import net.qamar.sampledatabindingmvvm.viewmodel.SampleViewModel
+import java.util.ArrayList
 
 class MainActivity : AppCompatActivity() {
+    private val viewModel: SampleViewModel by viewModels()
 
-    private lateinit var viewModel: SampleViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        viewModel = ViewModelProvider(this).get(SampleViewModel::class.java)
         val binding: ActivityMainBinding = setContentView(
             this,
             R.layout.activity_main
@@ -29,12 +33,30 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun setupObservers(){
+     fun setupObservers() {
 
         viewModel.albumList.observe(this, Observer { data ->
 
-            val adapterKT = RecyclerViewAdapterKT(data,this)
-            recyclerView.adapter = adapterKT
+            when (data.status) {
+                SUCCESS -> {
+                    progressBar.visibility = View.GONE
+
+                    val album = data.data
+                    album?.let {
+                        val adapterKT =
+                            RecyclerViewAdapterKT(it as ArrayList<RetroPhoto>?, this)
+                              recyclerView.adapter = adapterKT
+                    }
+                }
+                ERROR -> {
+
+                    Toast.makeText(this, data.msg, Toast.LENGTH_LONG)
+                        .show()
+                }
+                LOADING -> progressBar.visibility = View.VISIBLE
+
+            }
+
         })
     }
 }

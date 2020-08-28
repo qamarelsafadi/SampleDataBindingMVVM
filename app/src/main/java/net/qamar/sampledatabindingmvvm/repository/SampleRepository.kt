@@ -1,19 +1,19 @@
 package net.qamar.sampledatabindingmvvm.repository
 
-import android.app.Application
 import android.graphics.Color
-import android.util.Log
 import android.widget.TextView
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.liveData
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.MainScope
 import net.qamar.sampledatabindingmvvm.apiNetworking.RetrofitClientInstance
 import net.qamar.sampledatabindingmvvm.apiNetworking.interfaceAPI.GetDataService
 import net.qamar.sampledatabindingmvvm.model.RetroPhoto
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import net.qamar.sampledatabindingmvvm.apiNetworking.Resource
+import retrofit2.awaitResponse
 
-class SampleRepository() {
+class SampleRepository()  {
 
     val name = MutableLiveData<String>()
     val showProgress = MutableLiveData<Boolean>()
@@ -29,40 +29,60 @@ class SampleRepository() {
     }
 
 
-    fun changeTextColor(view: TextView){
+    fun changeTextColor(view: TextView) {
 
+        showProgress.value
         color.value = Color.BLUE
 
         view.setTextColor(color.value!!)
     }
+
     fun onClickTextView() {
         showProgress.value = false
         name.value = "Qamar"
-    }
 
-    fun getAllAlbums(): LiveData<ArrayList<RetroPhoto>> {
-        showProgress.value = true
-        RetrofitClientInstance.retrofitInstance!!.create(GetDataService::class.java)
-            .getAllPhotos()
-            .enqueue(object : Callback<List<RetroPhoto>> {
-                override fun onFailure(call: Call<List<RetroPhoto>>, t: Throwable) {
-                    showProgress.value = false
-                    Log.e("qmrFailure", t.localizedMessage)
-                }
 
-                override fun onResponse(
-                    call: Call<List<RetroPhoto>>,
-                    response: Response<List<RetroPhoto>>
-                ) {
-                    showProgress.value = false
-
-                    albumList.value = response.body() as ArrayList<RetroPhoto>?
-                }
-            })
-
-        return albumList
 
     }
 
+    //    fun getAllAlbums(): LiveData<ArrayList<RetroPhoto>> {
+//
+//
+//        showProgress.value = true
+//       val reponse =  RetrofitClientInstance.retrofitInstance!!.create(GetDataService::class.java).getAllPhotos()
+//
+//            .enqueue(object : Callback<List<RetroPhoto>> {
+//                override fun onFailure(call: Call<List<RetroPhoto>>, t: Throwable) {
+//                    showProgress.value = false
+//                    Log.e("qmrFailure", t.localizedMessage)
+//                }
+//
+//                override fun onResponse(
+//                    call: Call<List<RetroPhoto>>,
+//                    response: Response<List<RetroPhoto>>
+//                ) {
+//                    showProgress.value = false
+//
+//                    albumList.value = response.body() as ArrayList<RetroPhoto>?
+//                }
+//            })
+//
+//        return albumList
+//
+//    }
+
+
+    fun getAllAlbums() = liveData(Dispatchers.IO) {
+        emit(Resource.loading())
+        val api = RetrofitClientInstance.retrofitInstance!!.create(GetDataService::class.java)
+        val response = api.getAllPhotos()
+        if (response.isSuccessful) {
+            emit(Resource.success(response.body()))
+        }
+        else{
+            emit(Resource.error(response.body().toString()))
+
+        }
+    }
 
 }
