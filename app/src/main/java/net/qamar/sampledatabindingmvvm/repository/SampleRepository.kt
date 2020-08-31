@@ -20,6 +20,8 @@ class SampleRepository()  {
     val albumList = MutableLiveData<ArrayList<RetroPhoto>>()
     val color = MutableLiveData<Int>()
 
+    val data = MutableLiveData<RetroPhoto>()
+
 
     init {
         name.value = "Jacob"
@@ -83,6 +85,13 @@ class SampleRepository()  {
             emit(Resource.error(response.body().toString()))
 
         }
+    }
+
+    fun dataDetails(dataDetails:RetroPhoto) : MutableLiveData<RetroPhoto> {
+
+        data.value = dataDetails
+
+        return data
     }
 
 }

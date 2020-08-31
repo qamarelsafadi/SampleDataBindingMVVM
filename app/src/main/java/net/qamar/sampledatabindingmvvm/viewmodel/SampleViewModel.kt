@@ -16,6 +16,7 @@ class SampleViewModel() : ViewModel() {
     private val repository = SampleRepository()
     val name: LiveData<String>
     var showProgress: LiveData<Boolean>
+    lateinit var data: LiveData<RetroPhoto>
     lateinit var albumList: LiveData<Resource<List<RetroPhoto>>>
 
 
@@ -23,6 +24,7 @@ class SampleViewModel() : ViewModel() {
         name = repository.name
         showProgress = repository.showProgress
         albumList = repository.getAllAlbums()
+
     }
 
     fun refresh() {
@@ -33,6 +35,10 @@ class SampleViewModel() : ViewModel() {
 
     fun changeTextView() {
         repository.onClickTextView()
+    }
+
+    fun dataDetails(dataDetails:RetroPhoto){
+        data = repository.dataDetails(dataDetails)
     }
 
 }

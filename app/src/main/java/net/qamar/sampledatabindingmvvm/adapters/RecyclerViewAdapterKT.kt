@@ -15,19 +15,16 @@ import net.qamar.sampledatabindingmvvm.view.DetailsActivity
 import java.util.*
 
 
-class RecyclerViewAdapterKT(albums: ArrayList<RetroPhoto>?, context: Context) :
+class RecyclerViewAdapterKT(var albums: ArrayList<RetroPhoto>, context: Context) :
     RecyclerView.Adapter<RecyclerViewAdapterKT.ViewHolder>() {
 
 
-    var albums: ArrayList<RetroPhoto>? = albums;
     private var context: Context? = context;
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerViewAdapterKT.ViewHolder {
 
-
-      val binding: TaskItemBinding = DataBindingUtil.inflate( LayoutInflater.from(parent.context),
-          R.layout.task_item, parent, false);
+      val binding: TaskItemBinding = DataBindingUtil.inflate( LayoutInflater.from(parent.context), R.layout.task_item, parent, false);
         return ViewHolder(binding)
     }
 
@@ -54,13 +51,14 @@ class RecyclerViewAdapterKT(albums: ArrayList<RetroPhoto>?, context: Context) :
 
             this.binding!!.ConsContainer.setOnClickListener {
                 val intent = Intent(this.binding!!.root.context, DetailsActivity::class.java)
+                intent.putExtra("data",binding.item)
                 this.binding!!.root.context. startActivity(intent)
             }
 
         }
 
 
-        fun bindItem(item: RetroPhoto?) {
+        fun bindItem(item: RetroPhoto) {
             binding!!.item = item
             binding!!.executePendingBindings()
         }

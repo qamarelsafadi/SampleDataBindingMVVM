@@ -8,16 +8,17 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.BindingAdapter
 import com.google.gson.annotations.SerializedName
 import net.qamar.sampledatabindingmvvm.view.DetailsActivity
+import java.io.Serializable
 
 
 class RetroPhoto(
-    @field:SerializedName("albumId") var albumId: Int,
+    @field:SerializedName("albumId") private var albumId: Int,
     @field:SerializedName("id") var id: Int,
     @field:SerializedName("title") var title: String,
     @field:SerializedName("url") var url: String,
     @field:SerializedName("thumbnailUrl") var thumbnailUrl: String
 
-){
+) : Serializable{
     fun navigateToNewActivity(view: ConstraintLayout){
         val context: Context = view.context
         val intent = Intent(context, DetailsActivity::class.java)

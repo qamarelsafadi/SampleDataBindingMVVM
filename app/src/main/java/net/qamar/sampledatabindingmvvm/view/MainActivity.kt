@@ -7,7 +7,6 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil.setContentView
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import com.example.kotlinrv.Adapters.RecyclerViewAdapterKT
 import kotlinx.android.synthetic.main.activity_main.*
 import net.qamar.sampledatabindingmvvm.R
@@ -24,7 +23,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         val binding: ActivityMainBinding = setContentView(
             this,
-            R.layout.activity_main
+        R.layout.activity_main
         )
         binding.viewmodel = viewModel
         binding.lifecycleOwner = this
@@ -33,20 +32,13 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-     fun setupObservers() {
+     private fun setupObservers() {
 
         viewModel.albumList.observe(this, Observer { data ->
 
             when (data.status) {
                 SUCCESS -> {
-                    progressBar.visibility = View.GONE
-
-                    val album = data.data
-                    album?.let {
-                        val adapterKT =
-                            RecyclerViewAdapterKT(it as ArrayList<RetroPhoto>?, this)
-                              recyclerView.adapter = adapterKT
-                    }
+                    successState(data.data!!)
                 }
                 ERROR -> {
 
@@ -59,4 +51,18 @@ class MainActivity : AppCompatActivity() {
 
         })
     }
+
+
+    private fun successState(data : List<RetroPhoto>){
+        progressBar.visibility = View.GONE
+
+        data.let {
+            val adapterKT =
+                RecyclerViewAdapterKT(it as ArrayList<RetroPhoto>, this)
+            recyclerView.adapter = adapterKT
+        }
+    }
+
+
+
 }
