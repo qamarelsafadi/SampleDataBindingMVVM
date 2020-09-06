@@ -1,14 +1,14 @@
 package net.qamar.sampledatabindingmvvm.util
 
-import android.content.Context
-import android.content.Intent
 import android.graphics.Color
 import android.view.View
+import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.BindingAdapter
 import androidx.lifecycle.LiveData
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.squareup.picasso.Picasso
 
 
 @BindingAdapter("textChangeColor")
@@ -29,5 +29,10 @@ fun changeVisibility(view: ProgressBar, isVisible: LiveData<Boolean>) {
 
 
 }
+@BindingAdapter("imageUrl")
+fun imageUrl(view: ImageView, poserPath: String) {
+    Picasso.get().load(poserPath).into(view)
+}
+
 
 

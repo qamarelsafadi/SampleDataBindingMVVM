@@ -6,7 +6,7 @@
     <data>
         <import type="android.view.View"/>
 
-        <variable name="viewmodel" type="net.qamar.sampledatabindingmvvm.viewmodel.SampleViewModel"/>
+        <variable name="viewmodel" type="net.qamar.sampledatabindingmvvm.viewmodel.AlbumViewModel"/>
 
     </data>
 
@@ -17,8 +17,13 @@
 
         <TextView
             android:id="@+id/textView"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            android:gravity="center"
             android:text="@{viewmodel.data.title}"
             android:textSize="30sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -26,5 +31,20 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.13" />
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="0dp"
+            imageUrl="@{viewmodel.data.thumbnailUrl}"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView"
+            tools:srcCompat="@tools:sample/avatars" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -1,5 +1,6 @@
 package com.example.kotlinrv.Adapters
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
@@ -7,6 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat.startActivity
 import androidx.databinding.DataBindingUtil
+import androidx.paging.PagedListAdapter
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import net.qamar.sampledatabindingmvvm.R
 import net.qamar.sampledatabindingmvvm.databinding.TaskItemBinding
@@ -15,11 +18,10 @@ import net.qamar.sampledatabindingmvvm.view.DetailsActivity
 import java.util.*
 
 
-class RecyclerViewAdapterKT(var albums: ArrayList<RetroPhoto>, context: Context) :
-    RecyclerView.Adapter<RecyclerViewAdapterKT.ViewHolder>() {
+class RecyclerViewAdapterKT() :
+    PagedListAdapter<RetroPhoto, RecyclerViewAdapterKT.ViewHolder>(DIFF_CALLBACK) {
 
 
-    private var context: Context? = context;
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerViewAdapterKT.ViewHolder {
@@ -28,14 +30,11 @@ class RecyclerViewAdapterKT(var albums: ArrayList<RetroPhoto>, context: Context)
         return ViewHolder(binding)
     }
 
-    override fun getItemCount(): Int {
-        return albums?.size!!
-    }
+
 
     override fun onBindViewHolder(holder: RecyclerViewAdapterKT.ViewHolder, position: Int) {
 
-        val item = albums!![position]
-
+        val item = getItem(position)!!
         holder.bindItem(item)
 
     }
@@ -65,6 +64,18 @@ class RecyclerViewAdapterKT(var albums: ArrayList<RetroPhoto>, context: Context)
 
 
 
+    }
+    companion object {
+        private val DIFF_CALLBACK = object :
+            DiffUtil.ItemCallback<RetroPhoto>() {
+            // Concert details may have changed if reloaded from the database,
+            // but ID is fixed.
+            override fun areItemsTheSame(oldConcert: RetroPhoto,
+                                         newConcert: RetroPhoto) = oldConcert.id == newConcert.id
+
+            @SuppressLint("DiffUtilEquals")
+            override fun areContentsTheSame(oldConcert: RetroPhoto, newConcert: RetroPhoto) = oldConcert == newConcert
+        }
     }
 }
 

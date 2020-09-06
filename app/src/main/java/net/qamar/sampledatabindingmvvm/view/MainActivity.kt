@@ -1,68 +1,74 @@
 package net.qamar.sampledatabindingmvvm.view
 
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.annotation.RequiresApi
 import androidx.databinding.DataBindingUtil.setContentView
 import androidx.lifecycle.Observer
+import androidx.paging.PagedList
 import com.example.kotlinrv.Adapters.RecyclerViewAdapterKT
 import kotlinx.android.synthetic.main.activity_main.*
 import net.qamar.sampledatabindingmvvm.R
 import net.qamar.sampledatabindingmvvm.databinding.ActivityMainBinding
 import net.qamar.sampledatabindingmvvm.model.RetroPhoto
 import net.qamar.sampledatabindingmvvm.apiNetworking.Status.*
-import net.qamar.sampledatabindingmvvm.viewmodel.SampleViewModel
-import java.util.ArrayList
+import net.qamar.sampledatabindingmvvm.viewmodel.AlbumViewModel
 
 class MainActivity : AppCompatActivity() {
-    private val viewModel: SampleViewModel by viewModels()
+    private val viewModel: AlbumViewModel by viewModels()
 
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val binding: ActivityMainBinding = setContentView(
             this,
-        R.layout.activity_main
+            R.layout.activity_main
         )
         binding.viewmodel = viewModel
         binding.lifecycleOwner = this
 
         setupObservers()
 
+        viewModel.tosatMsg.observe(this, Observer { event ->
+            event?.getContentIfNotHandledOrReturnNull()?.let {
+                showToast(it)
+            }
+        })
+
+
     }
 
-     private fun setupObservers() {
 
-        viewModel.albumList.observe(this, Observer { data ->
 
-            when (data.status) {
-                SUCCESS -> {
-                    successState(data.data!!)
-                }
-                ERROR -> {
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+    private fun setupObservers() {
+        progressBar.visibility = View.VISIBLE
+        val adapterKT = RecyclerViewAdapterKT()
 
-                    Toast.makeText(this, data.msg, Toast.LENGTH_LONG)
-                        .show()
-                }
-                LOADING -> progressBar.visibility = View.VISIBLE
+        viewModel.getAlbums().observe(this, Observer { data ->
 
-            }
+            adapterKT.submitList(data)
+            progressBar.visibility = View.GONE
+
 
         })
+
+        recyclerView.adapter = adapterKT
+
     }
 
 
-    private fun successState(data : List<RetroPhoto>){
-        progressBar.visibility = View.GONE
 
-        data.let {
-            val adapterKT =
-                RecyclerViewAdapterKT(it as ArrayList<RetroPhoto>, this)
-            recyclerView.adapter = adapterKT
-        }
+
+
+    fun showToast(message:String){
+        if(message!="")
+        Toast.makeText(this,message,Toast.LENGTH_LONG).show()
     }
-
 
 
 }

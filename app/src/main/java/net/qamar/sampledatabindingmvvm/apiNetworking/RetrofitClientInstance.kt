@@ -22,6 +22,7 @@ object RetrofitClientInstance {
         dispatcher.maxRequests = 100
         loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
 
+
     }
     var client = OkHttpClient.Builder()
         .connectTimeout(0, TimeUnit.SECONDS)
@@ -30,6 +31,19 @@ object RetrofitClientInstance {
         .addInterceptor(loggingInterceptor)
         .dispatcher(dispatcher).build()
 
+
+    var okClient = OkHttpClient.Builder()
+        .connectTimeout(0, TimeUnit.SECONDS)
+        .readTimeout(0, TimeUnit.SECONDS)
+        .writeTimeout(0, TimeUnit.SECONDS)
+        .addInterceptor { chain ->
+            val newRequest = chain.request().newBuilder()
+                .addHeader("Content-Type", "application/json")
+                .addHeader("Accept", "application/json")
+                .build()
+            chain.proceed(newRequest)
+        }
+        .dispatcher(dispatcher).build()
 
 
     var gson = GsonBuilder()
@@ -42,7 +56,7 @@ object RetrofitClientInstance {
             if (retrofit == null) {
                 retrofit = Retrofit.Builder()
                     .baseUrl(BASE_URL)
-                    .client(client)
+                    .client(okClient)
                     .addConverterFactory(GsonConverterFactory.create(gson))
                     .addConverterFactory(ScalarsConverterFactory.create())
                     .build()
