@@ -19,9 +19,9 @@ class RetroPhoto(
     @field:SerializedName("thumbnailUrl") var thumbnailUrl: String
 
 ) : Serializable{
-    fun navigateToNewActivity(view: ConstraintLayout){
-        val context: Context = view.context
-        val intent = Intent(context, DetailsActivity::class.java)
-        context.startActivity(intent)
-    }
+
+fun isEmpty():Boolean{
+    return title == ""
+}
+
 }

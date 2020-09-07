@@ -5,8 +5,10 @@
 
     <data>
         <import type="android.view.View"/>
+        <variable name="viewModel" type="net.qamar.sampledatabindingmvvm.viewmodel.TaskItemViewModel"/>
 
         <variable name="item" type="net.qamar.sampledatabindingmvvm.model.RetroPhoto"/>
+
 
     </data>
 
@@ -37,7 +39,7 @@
 
                 <ImageView
                     android:id="@+id/imgTitle"
-                    imageUrl="@{item.thumbnailUrl}"
+                    imageUrl="@{viewModel.item.thumbnailUrl}"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:background="@android:color/transparent"
@@ -54,7 +56,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
-                    app:textChangeColor="@{item.id}"
+                    app:textChangeColor="@{viewModel.item.id}"
                     android:text="Task No."
                     android:textColor="#000"
                     android:textSize="18sp"
@@ -68,7 +70,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="12dp"
-                    android:text="@{Integer.toString(item.id)}"
+                    android:text="@{Integer.toString(viewModel.item.id)}"
                     android:textSize="12sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView3"
@@ -92,7 +94,7 @@
                         android:layout_height="wrap_content"
                         android:paddingStart="15dp"
                         android:paddingTop="5dp"
-                        android:text='@{item.title ?? ""}'
+                        android:text='@{viewModel.item.title ?? ""}'
                         android:textColor="#000"
                         android:textSize="12sp"
                         android:paddingLeft="15dp" />
@@ -106,12 +108,36 @@
                         android:lines="1"
                         android:paddingStart="15dp"
                         android:paddingTop="5dp"
-                        android:text="@{item.url}"
+                        android:text="@{viewModel.item.url}"
                         android:textSize="12sp"
                         android:paddingLeft="15dp" />
 
 
                 </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/imgDelete"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.849"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.929"
+                    app:srcCompat="@drawable/ic_baseline_delete_outline_24" />
+
+                <ImageView
+                    android:id="@+id/imgEdit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.951"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.929"
+                    app:srcCompat="@drawable/ic_baseline_edit_24" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>

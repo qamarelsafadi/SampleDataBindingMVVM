@@ -2,6 +2,7 @@ package net.qamar.sampledatabindingmvvm.util
 
 import android.app.Application
 import android.content.Context
+import io.paperdb.Paper
 
 class MyApplication: Application() {
     companion object {
@@ -11,5 +12,7 @@ class MyApplication: Application() {
     override fun onCreate() {
         super.onCreate()
         context = applicationContext
+        Paper.init(context);
+
     }
 }

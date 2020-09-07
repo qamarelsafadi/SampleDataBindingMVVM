@@ -1,4 +1,4 @@
-package net.qamar.sampledatabindingmvvm.apiNetworking
+package net.qamar.sampledatabindingmvvm.apinetworking
 data class Resource<out T>(val status: Status,
                            val data: T?,
                            val msg: String?) {

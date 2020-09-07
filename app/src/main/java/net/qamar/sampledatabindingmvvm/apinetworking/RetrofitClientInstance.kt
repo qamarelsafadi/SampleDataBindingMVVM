@@ -1,5 +1,5 @@
 
-package net.qamar.sampledatabindingmvvm.apiNetworking
+package net.qamar.sampledatabindingmvvm.apinetworking
 
 import com.google.gson.GsonBuilder
 import okhttp3.Dispatcher
