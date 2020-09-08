@@ -1,4 +1,4 @@
-package com.example.kotlinrv.Adapters
+package net.qamar.sampledatabindingmvvm.adapters
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -33,7 +33,7 @@ class RecyclerViewAdapterKT(private val viewModel: TaskItemViewModel?) :
             R.layout.task_item,
             parent,
             false
-        );
+        )
 
         return ViewHolder(binding, viewModel!!)
     }
@@ -51,7 +51,7 @@ class RecyclerViewAdapterKT(private val viewModel: TaskItemViewModel?) :
     class ViewHolder(binding: TaskItemBinding, viewModel: TaskItemViewModel) :
         RecyclerView.ViewHolder(binding.root) {
 
-        var binding: TaskItemBinding? = null
+        private var binding: TaskItemBinding? = null
         var viewModel: TaskItemViewModel? = null
 
 

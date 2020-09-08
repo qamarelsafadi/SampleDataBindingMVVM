@@ -1,8 +1,10 @@
 package net.qamar.sampledatabindingmvvm.view
 
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
+import androidx.annotation.RequiresApi
 import androidx.databinding.DataBindingUtil
 import net.qamar.sampledatabindingmvvm.R
 import net.qamar.sampledatabindingmvvm.databinding.ActivityDetailsBinding
@@ -13,16 +15,12 @@ class DetailsActivity : AppCompatActivity() {
     lateinit var data : RetroPhoto
     private val viewModel: AlbumViewModel by viewModels()
 
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val binding: ActivityDetailsBinding = DataBindingUtil.setContentView(
-            this,
-            R.layout.activity_details
-        )
-
+        val binding: ActivityDetailsBinding = DataBindingUtil.setContentView(this, R.layout.activity_details)
         if(intent!=null)
             data = intent.getSerializableExtra("data") as RetroPhoto
-
         viewModel.dataDetails(data)
         binding.viewmodel = viewModel
 

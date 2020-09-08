@@ -58,7 +58,7 @@ class AlbumsDataSource(private val scope: CoroutineScope) :
                     response.isSuccessful -> {
                         val listing = response.body()
 
-                        val key: Int = if (response.body()?.size!! < params.key.toInt()) {
+                        val key: Int = if (response.body()!!.size < params.key.toInt()) {
                             params.key.toInt() + 1 * LIMIT
                         } else {
                             params.key.toInt() + 1 * LIMIT
@@ -89,7 +89,7 @@ class AlbumsDataSource(private val scope: CoroutineScope) :
                     response.isSuccessful -> {
                         val listing = response.body()
 
-                        val key: Int = if (response.body()?.size!! < params.key.toInt()) {
+                        val key: Int = if (response.body()!!.size < params.key.toInt()) {
                             params.key.toInt() - 1 * LIMIT
                         } else {
                             params.key.toInt() - 1 * LIMIT

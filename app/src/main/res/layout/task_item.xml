@@ -48,7 +48,8 @@
                     app:layout_constraintHorizontal_bias="0.95"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.09" />
+                    app:layout_constraintVertical_bias="0.09"
+                    android:contentDescription="@string/thumbnail_url" />
 
                 <TextView
                     android:id="@+id/textView3"
@@ -57,7 +58,7 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
                     app:textChangeColor="@{viewModel.item.id}"
-                    android:text="Task No."
+                    android:text="@string/task_no"
                     android:textColor="#000"
                     android:textSize="18sp"
                     app:layout_constraintStart_toStartOf="parent"
@@ -97,7 +98,8 @@
                         android:text='@{viewModel.item.title ?? ""}'
                         android:textColor="#000"
                         android:textSize="12sp"
-                        android:paddingLeft="15dp" />
+                        android:paddingLeft="15dp"
+                        tools:ignore="RtlSymmetry" />
 
                     <TextView
                         android:id="@+id/txtDescription"
@@ -110,7 +112,8 @@
                         android:paddingTop="5dp"
                         android:text="@{viewModel.item.url}"
                         android:textSize="12sp"
-                        android:paddingLeft="15dp" />
+                        android:paddingLeft="15dp"
+                        tools:ignore="RtlSymmetry,TextViewEdits" />
 
 
                 </LinearLayout>
@@ -125,7 +128,9 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0.929"
-                    app:srcCompat="@drawable/ic_baseline_delete_outline_24" />
+                    app:srcCompat="@drawable/ic_baseline_delete_outline_24"
+                    android:contentDescription="@string/delete"
+                    tools:ignore="VectorDrawableCompat" />
 
                 <ImageView
                     android:id="@+id/imgEdit"
@@ -137,7 +142,9 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0.929"
-                    app:srcCompat="@drawable/ic_baseline_edit_24" />
+                    app:srcCompat="@drawable/ic_baseline_edit_24"
+                    android:contentDescription="@string/edit"
+                    tools:ignore="VectorDrawableCompat" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>

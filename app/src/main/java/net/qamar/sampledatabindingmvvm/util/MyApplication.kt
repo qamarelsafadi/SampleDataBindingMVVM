@@ -12,7 +12,7 @@ class MyApplication: Application() {
     override fun onCreate() {
         super.onCreate()
         context = applicationContext
-        Paper.init(context);
+        Paper.init(context)
 
     }
 }

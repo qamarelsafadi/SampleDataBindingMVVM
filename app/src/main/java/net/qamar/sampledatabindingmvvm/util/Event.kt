@@ -2,8 +2,7 @@ package net.qamar.sampledatabindingmvvm.util
 
 open class Event<T>(private var content: T) {
 
-    var hasBeenHandled = false
-        private set // Allow external read but not write
+    private var hasBeenHandled = false
 
     /**
      * Returns the content and prevents its use again.
@@ -21,8 +20,4 @@ open class Event<T>(private var content: T) {
      * Returns the content, even if it's already been handled.
      */
     fun peekContent(): T = content
-
-    fun setContent(newContent: T){
-        content = newContent
-    }
 }

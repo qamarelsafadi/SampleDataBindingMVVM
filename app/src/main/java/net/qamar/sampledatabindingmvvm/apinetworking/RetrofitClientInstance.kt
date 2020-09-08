@@ -15,9 +15,9 @@ object RetrofitClientInstance {
 
     private var retrofit: Retrofit? = null
 
-    val BASE_URL = "https://jsonplaceholder.typicode.com/"
-    val dispatcher = Dispatcher()
-    val loggingInterceptor = HttpLoggingInterceptor()
+    private const val BASE_URL = "https://jsonplaceholder.typicode.com/"
+    private val dispatcher = Dispatcher()
+    private val loggingInterceptor = HttpLoggingInterceptor()
     init {
         dispatcher.maxRequests = 100
         loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
@@ -32,7 +32,7 @@ object RetrofitClientInstance {
         .dispatcher(dispatcher).build()
 
 
-    var okClient = OkHttpClient.Builder()
+    private var okClient = OkHttpClient.Builder()
         .connectTimeout(0, TimeUnit.SECONDS)
         .readTimeout(0, TimeUnit.SECONDS)
         .writeTimeout(0, TimeUnit.SECONDS)
@@ -46,7 +46,7 @@ object RetrofitClientInstance {
         .dispatcher(dispatcher).build()
 
 
-    var gson = GsonBuilder()
+    private var gson = GsonBuilder()
         .setLenient()
         .create()!!
     val retrofitInstance: Retrofit?

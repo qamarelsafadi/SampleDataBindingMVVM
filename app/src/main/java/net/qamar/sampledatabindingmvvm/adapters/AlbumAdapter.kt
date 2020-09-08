@@ -1,13 +1,11 @@
-package com.example.kotlinrv.Adapters
+package net.qamar.sampledatabindingmvvm.adapters
 
-import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
-import androidx.core.content.ContextCompat.startActivity
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import net.qamar.sampledatabindingmvvm.R
@@ -18,8 +16,8 @@ import net.qamar.sampledatabindingmvvm.viewmodel.TaskItemViewModel
 import java.util.*
 
 
-class AlbumAdapter(albums: ArrayList<RetroPhoto>,
-    val context: Context,
+class AlbumAdapter(
+    albums: ArrayList<RetroPhoto>,
     private val viewModel: TaskItemViewModel?
 ) :
     RecyclerView.Adapter<AlbumAdapter.ViewHolder>() {
@@ -33,7 +31,7 @@ private val  list = albums
             R.layout.task_item,
             parent,
             false
-        );
+        )
 
         return ViewHolder(binding, viewModel!!,binding.root)
     }
@@ -53,10 +51,10 @@ private val  list = albums
     class ViewHolder(binding: TaskItemBinding, viewModel: TaskItemViewModel , root:View) :
         RecyclerView.ViewHolder(binding.root) {
 
-        var binding: TaskItemBinding? = null
+        private var binding: TaskItemBinding? = null
 
         var viewModel: TaskItemViewModel? = null
-        var root: View? = null
+        private var root: View? = null
 
         init {
             this.binding = binding

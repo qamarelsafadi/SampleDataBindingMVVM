@@ -10,8 +10,8 @@ import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.databinding.DataBindingUtil.setContentView
 import androidx.lifecycle.Observer
-import com.example.kotlinrv.Adapters.AlbumAdapter
-import com.example.kotlinrv.Adapters.RecyclerViewAdapterKT
+import net.qamar.sampledatabindingmvvm.adapters.AlbumAdapter
+import net.qamar.sampledatabindingmvvm.adapters.RecyclerViewAdapterKT
 import io.paperdb.Paper
 import kotlinx.android.synthetic.main.activity_main.*
 import net.qamar.sampledatabindingmvvm.R
@@ -29,25 +29,19 @@ class MainActivity : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val binding: ActivityMainBinding = setContentView(
-            this,
-            R.layout.activity_main
-        )
+        val binding: ActivityMainBinding = setContentView(this, R.layout.activity_main)
         binding.viewmodel = viewModel
         binding.lifecycleOwner = this
 
         setupObservers()
 
         viewModel.tosatMsg.observe(this, Observer { event ->
-            event?.getContentIfNotHandledOrReturnNull()?.let {
-                showToast(it)
-            }
+            showToast(event?.getContentIfNotHandledOrReturnNull().toString())
         })
 
         taskItemViewModel.toastMsg.observe(this, Observer { event ->
-            event?.getContentIfNotHandledOrReturnNull()?.let {
-                showToast(it)
-            }
+            showToast(event?.getContentIfNotHandledOrReturnNull().toString())
+
         })
 
 
@@ -71,19 +65,23 @@ class MainActivity : AppCompatActivity() {
 
         } else {
 
+            var adapter : AlbumAdapter
             //Offline Mode
             val list = Paper.book().read("list",ArrayList<RetroPhoto>())
             if(list.size!=0) {
                 progressBar.visibility = View.GONE
 
-                val adapter = AlbumAdapter(list, this@MainActivity, taskItemViewModel)
+                 adapter = AlbumAdapter(list, taskItemViewModel)
                 recyclerView.adapter = adapter
 
-                taskItemViewModel.albumList!!.observe(this, Observer { data ->
-                   // data.reverse()
 
-                    Log.e("qmrEdited","${data.get(0).title}")
-                    val adapter = AlbumAdapter(data, this@MainActivity, taskItemViewModel)
+                viewModel.albumList.observe(this, Observer { data ->
+                     adapter = AlbumAdapter(data, taskItemViewModel)
+                    recyclerView.adapter = adapter
+
+                })
+                taskItemViewModel.albumList!!.observe(this, Observer { data ->
+                     adapter = AlbumAdapter(data, taskItemViewModel)
                     recyclerView.adapter = adapter
 
                 })

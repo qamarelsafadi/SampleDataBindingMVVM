@@ -4,18 +4,19 @@ import android.os.Build
 import android.util.Log
 import android.view.View
 import androidx.annotation.RequiresApi
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import androidx.paging.DataSource
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import net.qamar.sampledatabindingmvvm.model.RetroPhoto
 import net.qamar.sampledatabindingmvvm.repository.SampleRepository
-import net.qamar.sampledatabindingmvvm.apinetworking.Resource
 import net.qamar.sampledatabindingmvvm.util.Event
 import net.qamar.sampledatabindingmvvm.viewmodel.datasource.AlbumsDataSource
 
 @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-class AlbumViewModel() : ViewModel() {
+class AlbumViewModel : ViewModel() {
 
     private val repository = SampleRepository()
     val name: LiveData<String>
@@ -25,11 +26,11 @@ class AlbumViewModel() : ViewModel() {
 
     lateinit var albumList: LiveData<ArrayList<RetroPhoto>>
 
-    var postsLiveData  :LiveData<PagedList<RetroPhoto>>
+    private var postsLiveData  :LiveData<PagedList<RetroPhoto>>
 
     init {
         name = repository.name
-        tosatMsg = repository.tosatMsg
+        tosatMsg = repository.toastMsg
         showProgress = repository.showProgress
         albumList = repository.albumList
 
@@ -65,7 +66,7 @@ class AlbumViewModel() : ViewModel() {
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     fun showDialog(view:View){
         repository.showDialog(view)
-        tosatMsg = repository.tosatMsg
+        tosatMsg = repository.toastMsg
 
     }
 
